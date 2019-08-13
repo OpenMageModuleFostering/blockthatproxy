@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento Fianet Extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category   Gr
+ * @package    Gr_Fianet
+ * @author     Nicolas Fabre <nicolas.fabre@groupereflect.net>
+ * @copyright  Copyright (c) 2008 Nicolas Fabre
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config>
+    <sections>
+    	<proxy translate="label" module="proxy">
+                 <label>BlockThatProxy Settings</label>
+            <frontend_type>text</frontend_type>
+			<tab>general</tab>
+           
+            <sort_order>500</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                   <feed translate="label comment" module="proxy">
+				   <comment><![CDATA[<DIV style="border:1px solid #CCCCCC; background:#CCCCCC; padding:5px; font-weight:bold">This requires a subscription from <a href="http://www.blockthatproxy.com">www.blockthatproxy.com</a>. Create a free user on our website to get your license. Free to use, no personal details required at sign up.</DIV><div style="padding-top:20px;"></div>]]></comment>
+                    <label>BlockThatProxy Options</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields><blockthatproxy_redirectpageenable translate="label">
+                            <label>Enable redirect</label>                                                                                                                                         
+                            <frontend_type>select</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<comment><![CDATA[Please select to enable/disable redirect. If enabled, also set the page below.]]></comment>
+                        </blockthatproxy_redirectpageenable>
+					   <blockthatproxy_fromemail translate="label">
+                            <label>From email</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<comment><![CDATA[The email shown as sender of the warning email.]]></comment>
+                      </blockthatproxy_fromemail>
+						<blockthatproxy_toemail translate="label">
+                            <label>To email</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<comment><![CDATA[The receiver of the warning email (you).]]></comment>
+                        </blockthatproxy_toemail>
+                        <blockthatproxy_message translate="label">
+                            <label>Message</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<comment><![CDATA[Content of the email. Can include the variables [ORDERID], [IP] and [Distance].]]></comment>
+                        </blockthatproxy_message>
+						<blockthatproxy_subject translate="label">
+                            <label>Subject</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<comment><![CDATA[The subject of the email that is sent.]]></comment>
+                        </blockthatproxy_subject>
+						<blockthatproxy_redirectpage translate="label">
+                            <label>Redirect to this page</label>                                                                                                                                         
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<comment><![CDATA[If users are detected as proxy, they will be automatically redirected here after payment. For example http://www.domain.com/warning.html.]]></comment>
+                        </blockthatproxy_redirectpage>	
+						<blockthatproxy_hashkey translate="label">
+                            <label>BlockThatProxy Hash key</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Your hash key from blockthatproxy.com.]]></comment>
+                        </blockthatproxy_hashkey>                                             
+                    </fields>
+                </feed>
+            </groups>
+        </proxy>
+	</sections>
+</config>           

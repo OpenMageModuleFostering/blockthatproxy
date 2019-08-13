@@ -1,0 +1,15 @@
+<?php
+$lastOrderId = Mage::getSingleton('checkout/session')->getLastOrderId();
+$order = Mage::getModel('sales/order')->load($lastOrderId);
+$incId=$order->getIncrementId();
+$_shippingAddress = $order->getShippingAddress();
+$addcity=$_shippingAddress->getCity();
+$countryName=$_shippingAddress->getCountryModel()->getName();
+
+$cname=$_shippingAddress->getName();
+
+$cemail=$order->getBillingAddress()->getEmail();
+
+
+$this->retrieveFeed($lastOrderId,$addcity,$countryName,$cname,$cemail,$incId);
+?>

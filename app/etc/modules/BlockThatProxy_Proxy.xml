@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config>
+<modules>
+   <BlockThatProxy_Proxy>
+      <active>true</active>
+      <codePool>local</codePool>
+      <version>2.0</version>
+   </BlockThatProxy_Proxy>
+</modules>
+</config>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!-- ce fichier doit se trouver dans adminhtml/default/default sinon pas pris en compte.. -->
+<layout version="0.1.0">
+    <proxy_orders_list>
+    	<reference name="content">
+    		<block type="proxy/Order_Grid" name="orderlist" template="proxy/Order/Grid.phtml" />
+    	</reference>
+    </proxy_orders_list>
+</layout>

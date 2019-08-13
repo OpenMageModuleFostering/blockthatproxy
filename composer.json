@@ -1,0 +1,16 @@
+{
+    "name": "OpenMageModuleFostering/BlockThatProxy",
+    "type": "magento-module",
+    "license": "Open-Software-License-(OSL)",
+    "homepage": "",
+    "description": "This extension integrates the fraud- and proxy detection service from BlockThatProxy.com",
+    "authors": [
+    {
+        "name": "Martin Wickings",
+        "email": "martin@wickings.dk"
+    }
+],
+    "suggest": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}

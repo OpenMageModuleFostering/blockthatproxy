@@ -1,0 +1,162 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <BlockThatProxy_Proxy>
+            <version>0.2.0</version>
+        </BlockThatProxy_Proxy>
+		<depends>
+              <!-- no dependencies --> 
+          </depends>
+    </modules>
+    <frontend>
+      <routers>
+        <proxy>
+          <use>standard</use>
+         <args>
+           <module>BlockThatProxy_Proxy</module>
+           <frontName>proxy</frontName>
+         </args>
+        </proxy>
+      </routers>
+	  <layout>
+          <updates>
+              <proxy>
+                  <file>proxy.xml</file>
+              </proxy>
+          </updates>
+      </layout>
+    </frontend>
+    <admin>
+    	<routers>
+            <proxy>
+                <use>admin</use>
+                <args>
+                    <module>BlockThatProxy_Proxy</module>
+                    <frontName>proxy</frontName>
+                </args>
+            </proxy>
+        </routers>
+    </admin>
+    <default>
+      <proxy>
+          <feed>
+            <blockthatproxy_subject>A suspicious order has been completed</blockthatproxy_subject>
+			<blockthatproxy_redirectpageenable>1</blockthatproxy_redirectpageenable>
+			<blockthatproxy_message><![CDATA[Hi, 
+
+The order [ORDERID] was completed by a user behind a proxy server. 
+
+The users IP is [IP]. The distance between the address entered by the user, and the city the IP belongs to is [Distance] km. You can also look it up here: http://www.blockthatproxy.com/ip-lookup.aspx.
+
+It is advised that you manually check the order before shipping it. If you have setup a redirect page, the user has been redirected to this page after payment.
+
+Regards,
+BlockThatProxy.com.]]></blockthatproxy_message>
+          </feed>
+      </proxy> 
+  </default>
+    <adminhtml>
+        <menu>
+            <proxy module="proxy">
+               <title>BlockThatProxy</title>
+                 <action>proxy/Orders/List</action>
+				 <sort_order>90</sort_order>
+				  <children>
+				  		<proxy_orders>
+							  <title>Proxy Orders</title>
+							   <action>proxy/Orders/List</action>
+						  </proxy_orders>
+						  <proxy>
+							  <title>Proxy Settings</title>
+							   <action>adminhtml/system_config/edit/section/proxy/</action>
+						  </proxy>
+					</children>
+            </proxy>
+        </menu>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                          <children>
+                              <config>
+                                  <children>
+                                      <proxy>
+                                          <title>Proxy Settings</title>
+                                      </proxy>
+                                  </children>
+                              </config>
+                          </children>
+                      </system>
+                    </children>
+                </admin>
+            </resources>   
+        </acl>
+        <layout>
+            <updates>
+                <proxy>
+                    <file>proxy.xml</file>
+                </proxy>
+            </updates>
+        </layout>
+		<routers>
+            <proxy>
+                <use>standard</use>
+                <args>
+                    <module>BlockThatProxy_Proxy</module>
+                    <frontName>Proxy</frontName>
+                </args>
+            </proxy>
+        </routers>
+    </adminhtml>   
+    <global>
+        <models>
+            <proxy>
+                <class>BlockThatProxy_Proxy_Model</class>
+                <resourceModel>proxy_mysql4</resourceModel>
+            </proxy>
+            <proxy_mysql4>
+                <class>BlockThatProxy_Proxy_Model_Mysql4</class>
+                <entities>
+                  <Order>
+                        <table>proxy_flag</table>
+                    </Order>
+				  <feed>
+                    	<table>Proxy</table>
+             	   </feed>
+                </entities>
+            </proxy_mysql4>
+        </models>
+        <resources>
+            <proxy_setup>
+                <setup>
+                    <module>BlockThatProxy_Proxy</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </proxy_setup>
+            <proxy_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+
+            </proxy_write>
+            <proxy_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </proxy_read>
+        </resources>
+        <blocks>
+            <proxy>
+                <class>BlockThatProxy_Proxy_Block</class>
+            </proxy>
+        </blocks>
+        <helpers>
+            <proxy>
+                <class>BlockThatProxy_Proxy_Helper</class>
+            </proxy>
+        </helpers>
+    </global>
+</config>

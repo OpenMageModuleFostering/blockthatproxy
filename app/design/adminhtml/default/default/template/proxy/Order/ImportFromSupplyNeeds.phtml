@@ -1,0 +1,181 @@
+<style>
+.lien-popup span
+{								   
+    position       :  absolute;
+    top            :  -2000em;
+    left           :  -2000em;
+    width          :  1px;
+    height         :  1px;
+    overflow       :  hidden; 
+    background     :  #ffffe1;   /* Définition du fond, sinon on a le même que notre lien */
+    border         :  1px solid #000000; /* Définition des bordures */
+    text-decoration: none;
+    color: black;
+    text-align: left;
+}  
+
+
+.lien-popup:hover span
+{								   
+	top        :  auto;
+    left       :  auto;
+    width      :  200px;
+    height     :  auto;
+    overflow   :  visible;
+}  
+
+</style>
+
+<script>
+
+//***************************************************************************************************************************
+//Fonction pour trier la liste
+function setSortBy(field)
+{
+	document.getElementById('sort_by').value = field;
+	document.getElementById('form_search').submit();
+}
+
+//***************************************************************************************************************************
+//fonction pour reseter les filtres
+function resetFilters()
+{
+	document.location.href = '<?php echo $this->getUrl('Purchase/SupplyNeeds/List'); ?>';
+}
+
+//****************************************************************************************************************************
+//Sélectionne toutes les case a cocher de sélection
+function selectAll()
+{
+	for (i=0; i < document.form_products.elements.length; i++) 
+	{
+		if (document.form_products.elements[i].name.indexOf('ch_') != -1) 
+		{
+			document.form_products.elements[i].checked = document.getElementById('all').checked; 	
+		}
+	}
+}
+
+//****************************************************************************************************************************
+//Ajoute les produits a la commande
+function AddToOrder()
+{
+	//Soumet le formulaire en ajax
+	var url = '';
+	url = '<?php echo $this->getUrl('Purchase/Orders/CreateFromSupplyNeeds'); ?>';
+	
+    var request = new Ajax.Request(
+        url,
+        {
+            method: 'post',
+            onSuccess: function onSuccess(transport)
+		        			{
+		        				//Rafraichit le parent
+		        				window.opener.location.href = window.opener.location.href;
+		        				
+		        				//ferme cette fenetre
+		        				self.close();
+								
+		        			},
+			onFailure: function onFailure(transport)
+		        			{
+		        				//Rafraichit la page
+								alert('error');
+		        			},
+            parameters: Form.serialize(document.getElementById('form_products'))
+        }
+    );
+}
+
+</script>
+
+<div class="entry-edit">
+
+<div class="content-header">
+    <table cellspacing="0" class="grid-header">
+        <tr>
+            <td><h3><?php echo$this->__('Import Supply Needs')?></h3></td>
+            <td align="right">
+                <button onclick="document.getElementById('form_search').submit();" class="scalable save" type="button"><span><?php echo $this->__('Refresh')?></span></button>
+                <button onclick="resetFilters()" class="scalable save" type="button"><span><?php echo $this->__('Reset')?></span></button>
+                <button onclick="AddToOrder();" class="scalable save" type="button"><span><?php echo $this->__('Import')?></span></button>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<fieldset>
+
+<form id="form_search" name="form_search" method="GET">
+<input type="hidden" id="sort_by" name="sort_by" value="<?php echo $this->sortBy(); ?>">
+<table border="0" width="100%">
+	<tr>
+		<td><?php echo $this->__('Supplier')?> : <?php echo $this->getSupplierListAsCombo('supplier', $this->supplierFilter()); ?></td>
+		<td><?php echo $this->__('Manufacturer')?> : <?php echo $this->getManufacturerListAsCombo('manufacturer', $this->manufacturerFilter()); ?></td>
+		<td><?php echo $this->__('Status')?> : <?php echo $this->getStatusListAsCombo('status', $this->statusFilter()); ?></td>
+	</tr>
+</table>
+</form>
+
+</fieldset>
+
+<form id="form_products" name="form_products" method="POST" action="<?php echo $this->getUrl('Purchase/Orders/CreateFromSupplyNeeds') ?>">
+<input type="hidden" id="po_num" name="po_num" value="<?php echo Mage::app()->getRequest()->getParam('po_num', false); ?>">
+<input name="form_key" type="hidden" value="<?php echo $this->getFormKey() ?>" />
+<div class="grid">
+	<table cellspacing="0" class="data" width="100%">
+		<thead>
+			<tr class="headings">
+				<th class="a-center"><input type="checkbox" name="all" id="all" onclick="selectAll();"></th>
+				<th class="a-center"><a href="javascript:setSortBy('manufacturer');"><?php echo $this->__('Manufacturer')?></a></th>
+				<th class="a-center"><a href="javascript:setSortBy('description');"><?php echo $this->__('Description')?></a></th>
+				<th class="a-center" width="100"><a href="javascript:setSortBy('status');"><?php echo $this->__('Status')?></a></th>
+				<th class="a-center"><?php echo $this->__('Details')?></th>
+				<th class="a-center"><a href="javascript:setSortBy('needed_qty');"><?php echo $this->__('Needed Qty')?></a></th>
+				<th class="a-center"><?php echo $this->__('Suppliers')?></th>
+			</tr>
+		</thead>
+		<tbody>
+		<?php
+			$collection = $this->getList();
+			foreach ($collection as $item)
+			{
+				$UnderlinedStart = '';
+				$UnderlinedStop = '';
+				if ($item->getsn_needed_qty() <= 0)
+				{
+					$UnderlinedStart = '<font color="#129218">';
+					$UnderlinedStop = '</i>';
+				}
+				
+				echo '<tr>';
+				echo '<td align="center"><input type="checkbox" id="ch_'.$item->getsn_product_id().'" name="ch_'.$item->getsn_product_id().'" value="1"></td>';
+				echo '<td>'.$UnderlinedStart.$item->getsn_manufacturer_name().'</td>';
+				echo '<td><a href="'.$this->getUrl('Purchase/Products/Edit').'product_id/'.$item->getsn_product_id().'">'.$UnderlinedStart.$item->getsn_product_name().'<input type="hidden" id="name_'.$item->getsn_product_id().'" name="name_'.$item->getsn_product_id().'" value="'.$item->getsn_product_name().'"></a></td>';
+				echo '<td align="center">'.$UnderlinedStart.$this->__($item->getsn_status()).'</td>';
+				
+				echo '<td align="center">';
+				//rajoute le span pour le popup
+				echo '<a href="#" class="lien-popup">';
+				echo '<img src="'.$this->getSkinUrl('images/note_msg_icon.gif').'">';
+				echo '<span>'.nl2br($item->getsn_details()).'</span>';
+				echo '</a>';
+		
+				//rajoute un panneau si warning
+				if ($item->getsn_is_warning())
+					echo ' <img src="'.$this->getSkinUrl('images/purchase/warning.gif').'" alt="Warning" height="16">';
+				echo '</td>';
+				
+				echo '<td align="center">'.$UnderlinedStart.$item->getsn_needed_qty().'<input type="hidden" id="qty_'.$item->getsn_product_id().'" name="qty_'.$item->getsn_product_id().'" value="'.$item->getsn_needed_qty().'"></td>';
+				echo '<td>'.$UnderlinedStart.$item->getsn_suppliers_name ().'&nbsp;</td>';
+		
+				
+				echo '</tr>';
+			}
+		?>
+		</tbody>
+	</table>
+</div>
+</form>
+
+</div>
