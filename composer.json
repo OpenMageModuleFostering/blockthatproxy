@@ -1,7 +1,7 @@
 {
-    "name": "OpenMageModuleFostering\/BlockThatProxy",
+    "name": "openmage-module-fostering\/blockthatproxy",
     "type": "magento-module",
-    "license": "Open-Software-License-(OSL)",
+    "license": "OSL-3.0",
     "homepage": "",
     "description": "This extension integrates the fraud- and proxy detection service from BlockThatProxy.com",
     "authors": [
